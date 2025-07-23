@@ -1,0 +1,4 @@
+SQLAlchemy
+fastapi[standard]
+alembic
+psycopg2-binary

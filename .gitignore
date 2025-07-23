@@ -1,0 +1,28 @@
+# Ignore environment variables file
+.env
+
+# Python cache files and folders
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment folder (if named .venv or venv)
+.venv/
+venv/
+
+# IDE/editor folders (optional but recommended)
+.vscode/
+.idea/
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# Logs and databases (optional)
+*.log
+*.sqlite3
+
+# OS generated files (optional)
+.DS_Store
+Thumbs.db
