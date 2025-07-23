@@ -139,7 +139,7 @@ feature_flag_backend/
 **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/feature_flag_backend.git
+git clone https://github.com/C-NASIR/feature-flag-backend.git
 cd feature_flag_backend
 ```
 
