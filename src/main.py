@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from src.routers import flag_route
+from src.routers import flag_router, env_router
 
 app = FastAPI(
     title="Feature Flag API",
@@ -8,7 +8,8 @@ app = FastAPI(
     version="0.1.0",
 )
 
-app.include_router(flag_route)
+app.include_router(flag_router)
+app.include_router(env_router)
 # app.include_router(rule_route)
 # app.include_router(variation_route)
 # app.include_router(prerequisite_route)
