@@ -2,3 +2,6 @@ SQLAlchemy
 fastapi[standard]
 alembic
 psycopg2-binary
+pytest
+pytest-cov
+httpx

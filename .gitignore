@@ -26,3 +26,7 @@ venv/
 # OS generated files (optional)
 .DS_Store
 Thumbs.db
+
+#tests
+test.db
+*.coverage
