@@ -8,7 +8,7 @@ from src.schemas.environment import (
     EnvironmentCreate, EnvironmentUpdate, EnvironmentInDB
 )
 
-router = APIRouter(prefix='/environment', tags=['environment'])
+router = APIRouter(prefix='/environment', tags=['Environment'])
 
 
 @router.get('/', response_model=List[EnvironmentInDB])
