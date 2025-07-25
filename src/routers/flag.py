@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import List
-
+from uuid import UUID
 from src.db.session import get_db
 from src.schemas.flag import FlagCreate, FlagUpdate, FlagInDB
 from src.services import flag_service
@@ -14,9 +14,9 @@ def list_flags(db: Session = Depends(get_db)):
     return flag_service.get_flags(db)
 
 
-@router.get("/{flag_id}", response_model=FlagInDB)
-def read_flag(flag_id: str, db: Session = Depends(get_db)):
-    return flag_service.get_flag(db, flag_id)
+@router.get("/{id}", response_model=FlagInDB)
+def read_flag(id: UUID, db: Session = Depends(get_db)):
+    return flag_service.get_flag(db, id)
 
 
 @router.post("/", response_model=FlagInDB)
@@ -24,11 +24,11 @@ def create_flag(flag: FlagCreate, db: Session = Depends(get_db)):
     return flag_service.create_flag(db, flag)
 
 
-@router.put("/{flag_id}", response_model=FlagInDB)
-def update_flag(flag_id: str, flag_in: FlagUpdate, db: Session = Depends(get_db)):
-    return flag_service.update_flag(db, flag_id, flag_in)
+@router.put("/{id}", response_model=FlagInDB)
+def update_flag(id: UUID, flag_in: FlagUpdate, db: Session = Depends(get_db)):
+    return flag_service.update_flag(db, id, flag_in)
 
 
-@router.delete("/{flag_id}")
-def delete_flag(flag_id: str, db: Session = Depends(get_db)):
-    return flag_service.delete_flag(db, flag_id)
+@router.delete("/{id}")
+def delete_flag(id: UUID, db: Session = Depends(get_db)):
+    return flag_service.delete_flag(db, id)

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.sql import func
-import uuid
+from uuid import uuid4
 
 from src.db.base import Base
 
@@ -9,7 +9,7 @@ from src.db.base import Base
 class Variation(Base):
     __tablename__ = 'variations'
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     flag_id = Column(UUID(as_uuid=True), ForeignKey(
         'flags.id', ondelete='CASCADE'), nullable=False)
 

@@ -1,14 +1,14 @@
-import uuid
 from sqlalchemy import Column, String, Boolean, DateTime
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
+from uuid import uuid4
 from src.db.base import Base
 
 
 class Flag(Base):
     __tablename__ = "flags"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     key = Column(String, unique=True, nullable=False)
     name = Column(String, nullable=False)
     description = Column(String)
