@@ -5,19 +5,17 @@ from datetime import datetime
 
 class EnvironmentBase(BaseModel):
     name: str
-    description: Optional[str]
 
 
-class EnvironmentCreate(EnvironmentBase):
+class EnvCreate(EnvironmentBase):
     pass
 
 
-class EnvironmentUpdate(BaseModel):
+class EnvUpdate(BaseModel):
     name: Optional[str]
-    description: Optional[str]
 
 
-class EnvironmentInDB(EnvironmentBase):
+class EnvInDB(EnvironmentBase):
     id: UUID4
     created_at: datetime
     updated_at: Optional[datetime]

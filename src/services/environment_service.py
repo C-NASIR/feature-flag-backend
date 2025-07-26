@@ -3,22 +3,22 @@ from sqlalchemy.orm import Session
 from uuid import UUID
 from src.models.environment import Environment
 from src.schemas.environment import (
-    EnvironmentCreate, EnvironmentUpdate
+    EnvCreate, EnvUpdate
 )
 
 
-def get_environments(db: Session):
+def get_envs(db: Session):
     return db.query(Environment).all()
 
 
-def get_environment(db: Session, id: UUID):
+def get_env(db: Session, id: UUID):
     env = db.query(Environment).filter(Environment.id == id).first()
     if not env:
         raise HTTPException(status_code=404, detail='Environment not found')
     return env
 
 
-def create_environment(db: Session, env_in: EnvironmentCreate):
+def create_env(db: Session, env_in: EnvCreate):
     env = Environment(**env_in.model_dump())
     db.add(env)
     db.commit()
@@ -26,8 +26,8 @@ def create_environment(db: Session, env_in: EnvironmentCreate):
     return env
 
 
-def update_environment(db: Session, id: UUID, env_in: EnvironmentUpdate):
-    env = get_environment(db, id)
+def update_env(db: Session, id: UUID, env_in: EnvUpdate):
+    env = get_env(db, id)
     for field, value in env_in.model_dump(exclude_unset=True).items():
         setattr(env, field, value)
     db.commit()
@@ -35,7 +35,8 @@ def update_environment(db: Session, id: UUID, env_in: EnvironmentUpdate):
     return env
 
 
-def delete_environment(db: Session, id: UUID):
-    env = get_environment(db, id)
+def delete_env(db: Session, id: UUID):
+    env = get_env(db, id)
     db.delete(env)
+    db.commit()
     return {"ok": True}
