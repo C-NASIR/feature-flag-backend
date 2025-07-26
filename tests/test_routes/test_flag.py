@@ -1,10 +1,5 @@
-import pytest
 
-
-@pytest.fixture
-def flags_data(client):
-    response = client.post('/environments', json={'name': 'env 1'})
-    env_id = response.json()['id']
+def get_flag_data(env_id):
     return [
         {'key': "flag-a",
             'name': "Flag A",
@@ -21,13 +16,15 @@ def flags_data(client):
     ]
 
 
-def test_create_flag_route(client, flags_data):
+def test_create_flag_route(client, env_id):
+    flags_data = get_flag_data(env_id)
     response = client.post('/flags', json=flags_data[0])
     assert response.status_code == 201
     assert response.json()['name'] == 'Flag A'
 
 
-def test_get_flag_route(client, flags_data):
+def test_get_flag_route(client, env_id):
+    flags_data = get_flag_data(env_id)
     post = client.post('/flags', json=flags_data[0])
     flag_id = post.json()['id']
     response = client.get(f'/flags/{flag_id}')
@@ -36,7 +33,8 @@ def test_get_flag_route(client, flags_data):
     assert response.json()['name'] == 'Flag A'
 
 
-def test_get_flags_route(client, flags_data):
+def test_get_flags_route(client, env_id):
+    flags_data = get_flag_data(env_id)
     client.post("/flags", json=flags_data[0])
     client.post("/flags", json=flags_data[1])
     response = client.get('/flags')
@@ -46,7 +44,8 @@ def test_get_flags_route(client, flags_data):
     assert len(flags) == 2
 
 
-def test_update_flag_route(client, flags_data):
+def test_update_flag_route(client, env_id):
+    flags_data = get_flag_data(env_id)
     post = client.post('/flags', json=flags_data[1])
     flag_id = post.json()['id']
     put = client.put(f"/flags/{flag_id}", json={"name": "New flag"})
@@ -54,7 +53,8 @@ def test_update_flag_route(client, flags_data):
     assert put.json()['name'] == 'New flag'
 
 
-def test_delete_flag_route(client, flags_data):
+def test_delete_flag_route(client, env_id):
+    flags_data = get_flag_data(env_id)
     post = client.post('/flags', json=flags_data[1])
     flag_id = post.json()['id']
     delete = client.delete(f'/flags/{flag_id}')

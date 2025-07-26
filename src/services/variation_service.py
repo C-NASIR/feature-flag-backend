@@ -13,6 +13,7 @@ def get_variation(db: Session, id: uuid4):
     variation = db.query(Variation).filter(Variation.id == id).first()
     if not variation:
         raise HTTPException(status_code=404, detail='variation not found')
+    return variation
 
 
 def create_variation(db: Session, variation_in: VariationCreate):
@@ -25,7 +26,7 @@ def create_variation(db: Session, variation_in: VariationCreate):
 
 def update_variation(db: Session, id: uuid4, variation_in: VariationUpdate):
     variation = get_variation(db, id)
-    for field, value in variation_in.model_dump(exclude_unset=True):
+    for field, value in variation_in.model_dump(exclude_unset=True).items():
         setattr(variation, field, value)
     db.commit()
     db.refresh(variation)

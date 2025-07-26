@@ -13,7 +13,7 @@ class SegmentCreate(SegmentBase):
 
 
 class SegmentUpdate(BaseModel):
-    key: Optional[str]
+    key: Optional[str] = None
     description: Optional[str] = None
 
 
