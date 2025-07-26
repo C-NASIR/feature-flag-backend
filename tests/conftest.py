@@ -18,8 +18,6 @@ engine = create_engine(TEST_DATABASE_URL)
 TestingSessionLocal = sessionmaker(
     autocommit=False, autoflush=False, bind=engine)
 
-# Create and drop all tables before/after tests
-
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_database():
@@ -27,9 +25,8 @@ def setup_database():
     yield
     Base.metadata.drop_all(bind=engine)
 
+
 # Fixture for DB session
-
-
 @pytest.fixture
 def db_session():
     session = TestingSessionLocal()
