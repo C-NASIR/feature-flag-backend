@@ -1,20 +1,32 @@
-from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.sql import func
-from uuid import uuid4
+from sqlalchemy import String, Boolean, DateTime, ForeignKey, func, text
+from sqlalchemy.dialects.postgresql import UUID as PG_UUID
+from sqlalchemy.orm import relationship, mapped_column, Mapped
+from uuid import uuid4, UUID
+from datetime import datetime
+from typing import List
 from src.db.base import Base
 
 
 class Flag(Base):
     __tablename__ = "flags"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
-    key = Column(String(100), unique=True, nullable=False)
-    name = Column(String(100), nullable=False)
-    environment_id = Column(UUID(as_uuid=True), ForeignKey(
-        "environments.id"), nullable=False)
-    description = Column(String, nullable=True)
-    default_variation = Column(String(100), nullable=False)
-    enabled = Column(Boolean, default=False, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    id: Mapped[UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, default=uuid4)
+    key: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    description: Mapped[str] = mapped_column(String, nullable=True)
+    environment_id: Mapped[UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey('environments.id'), nullable=False)
+    default_variation: Mapped[str] = mapped_column(String, nullable=True)
+    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False)
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=text('now()'))
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=text("now()"), onupdate=func.now())
+
+    environment: Mapped['Environment'] = relationship(back_populates="flags")
+    variations: Mapped[List['Variation']] = relationship(
+        back_populates='flag', cascade='all, delete-orphan')
+    rules: Mapped[List['Rule']] = relationship(
+        back_populates='flag', cascade='all, delete-orphan')
