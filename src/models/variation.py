@@ -23,4 +23,5 @@ class Variation(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()"), onupdate=func.now())
 
-    flag: Mapped["Flag"] = relationship(back_populates="variations")
+    flag: Mapped["Flag"] = relationship(            # type: ignore
+        back_populates="variations")

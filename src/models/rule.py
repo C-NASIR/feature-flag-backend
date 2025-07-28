@@ -4,6 +4,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from uuid import uuid4, UUID
 from datetime import datetime
 from typing import List
+
 from src.db.base import Base
 
 
@@ -21,8 +22,8 @@ class Rule(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()"), onupdate=func.now())
 
-    flag: Mapped["Flag"] = relationship(back_populates="rules")
-    conditions: Mapped[List["Condition"]] = relationship(
+    flag: Mapped["Flag"] = relationship(back_populates="rules")  # type: ignore
+    conditions: Mapped[List["Condition"]] = relationship(        # type: ignore
         back_populates="rule", cascade="all, delete-orphan")
-    segments: Mapped[List["Segment"]] = relationship(
+    segments: Mapped[List["Segment"]] = relationship(           # type: ignore
         secondary="rule_segments", back_populates="rules")

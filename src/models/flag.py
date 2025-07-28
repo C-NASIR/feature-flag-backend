@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship, mapped_column, Mapped
 from uuid import uuid4, UUID
 from datetime import datetime
 from typing import List
+
 from src.db.base import Base
 
 
@@ -25,8 +26,9 @@ class Flag(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()"), onupdate=func.now())
 
-    environment: Mapped['Environment'] = relationship(back_populates="flags")
-    variations: Mapped[List['Variation']] = relationship(
+    environment: Mapped['Environment'] = relationship(  # type: ignore
+        back_populates="flags")
+    variations: Mapped[List['Variation']] = relationship(  # type: ignore
         back_populates='flag', cascade='all, delete-orphan')
-    rules: Mapped[List['Rule']] = relationship(
+    rules: Mapped[List['Rule']] = relationship(  # type: ignore
         back_populates='flag', cascade='all, delete-orphan')

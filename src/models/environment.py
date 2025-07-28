@@ -4,6 +4,7 @@ from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from uuid import uuid4, UUID
 from datetime import datetime
 from typing import List
+
 from src.db.base import Base
 
 
@@ -20,4 +21,5 @@ class Environment(Base):
         DateTime(timezone=True), server_default=text("now()"), onupdate=func.now()
     )
 
-    flags: Mapped[List["Flag"]] = relationship(back_populates="environment")
+    flags: Mapped[List["Flag"]] = relationship(  # type: ignore
+        back_populates="environment")

@@ -22,5 +22,5 @@ class Segment(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()"), onupdate=func.now())
 
-    rules: Mapped[List["Rule"]] = relationship(
+    rules: Mapped[List["Rule"]] = relationship(         # type: ignore
         secondary="rule_segments", back_populates="segments")
