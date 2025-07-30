@@ -28,6 +28,6 @@ class Rule(Base):
     flag: Mapped["Flag"] = relationship(back_populates="rules")  # type: ignore
     conditions: Mapped[List["Condition"]] = relationship(        # type: ignore
         back_populates="rule", cascade="all, delete-orphan")
-    segments: Mapped[List["Segment"]] = relationship(
+    segments: Mapped[List["Segment"]] = relationship(            # type: ignore
         secondary=rule_segments, back_populates="rules"
     )

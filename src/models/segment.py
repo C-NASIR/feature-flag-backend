@@ -27,7 +27,7 @@ class Segment(Base):
         server_default=text("now()"),
         onupdate=func.now())
 
-    rules: Mapped[List["Rule"]] = relationship(
+    rules: Mapped[List["Rule"]] = relationship(          # type: ignore
         secondary=rule_segments,
         back_populates="segments"
     )
