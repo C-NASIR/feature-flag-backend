@@ -30,7 +30,3 @@ class FlagInDB(FlagBase):
     updated_at: Optional[datetime] = None
 
     model_config = {'from_attributes': True}
-
-
-class FlagsInDB(BaseModel):
-    flags: Optional[List[FlagInDB]]

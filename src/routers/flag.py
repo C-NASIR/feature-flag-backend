@@ -9,11 +9,6 @@ from src.services import flag_service
 router = APIRouter(prefix="/flags", tags=["Flags"])
 
 
-@router.get("/", response_model=List[FlagInDB], status_code=200)
-def list_flags(db: Session = Depends(get_db)):
-    return flag_service.get_flags(db)
-
-
 @router.get("/{id}", response_model=FlagInDB, status_code=200)
 def read_flag(id: UUID, db: Session = Depends(get_db)):
     return flag_service.get_flag(db, id)

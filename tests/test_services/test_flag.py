@@ -8,24 +8,24 @@ from src.services import flag_service
 
 
 @pytest.fixture
-def env(db_session: Session):
-    return create_env(db_session, EnvCreate(name='A'))
+def env_id(db_session: Session):
+    data = {'key': 'dev', 'name': 'dev'}
+    return create_env(db_session, EnvCreate(**data)).id
 
 
 @pytest.fixture
-def flag_data(env):
+def flag_data():
     return FlagCreate(
         key="feature-z",
         name="Feature Z",
-        environment_id=env.id,
         description="Enables Feature Z",
         default_variation="on",
         enabled=True
     )
 
 
-def test_create_flag(db_session: Session, flag_data: FlagCreate, env):
-    flag = flag_service.create_flag(db_session, flag_data)
+def test_create_flag(db_session: Session, flag_data: FlagCreate, env_id):
+    flag = flag_service.create_flag(db_session, env_id, flag_data)
 
     assert isinstance(flag, Flag)
     assert flag.key == "feature-z"
@@ -33,16 +33,16 @@ def test_create_flag(db_session: Session, flag_data: FlagCreate, env):
     assert flag.description == "Enables Feature Z"
 
 
-def test_get_flag(db_session: Session, flag_data: FlagCreate):
-    created_flag = flag_service.create_flag(db_session, flag_data)
+def test_get_flag(db_session: Session, flag_data: FlagCreate, env_id):
+    created_flag = flag_service.create_flag(db_session, env_id, flag_data)
     fetched_flag = flag_service.get_flag(db_session, created_flag.id)
 
     assert fetched_flag is not None
     assert fetched_flag.id == created_flag.id
 
 
-def test_update_flag(db_session: Session, flag_data: FlagCreate):
-    created_flag = flag_service.create_flag(db_session, flag_data)
+def test_update_flag(db_session: Session, flag_data: FlagCreate, env_id):
+    created_flag = flag_service.create_flag(db_session, env_id, flag_data)
 
     update_data = FlagUpdate(
         name="Updated Feature Z",
@@ -56,8 +56,7 @@ def test_update_flag(db_session: Session, flag_data: FlagCreate):
     assert updated_flag.enabled is False
 
 
-def test_delete_flag(db_session: Session, flag_data: FlagCreate):
-    created_flag = flag_service.create_flag(db_session, flag_data)
+def test_delete_flag(db_session: Session, flag_data: FlagCreate, env_id):
+    created_flag = flag_service.create_flag(db_session, env_id, flag_data)
     deleted_result = flag_service.delete_flag(db_session, created_flag.id)
     assert deleted_result['ok'] == True
-    assert len(flag_service.get_flags(db_session)) == 0

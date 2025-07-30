@@ -5,10 +5,6 @@ from src.models.flag import Flag
 from src.schemas.flag import FlagCreate, FlagUpdate
 
 
-def get_flags(db: Session):
-    return db.query(Flag).all()
-
-
 def get_flag(db: Session, flag_id: UUID):
     flag = db.query(Flag).filter(Flag.id == flag_id).first()
     if not flag:
@@ -16,8 +12,8 @@ def get_flag(db: Session, flag_id: UUID):
     return flag
 
 
-def create_flag(db: Session, flag_in: FlagCreate):
-    db_flag = Flag(**flag_in.model_dump())
+def create_flag(db: Session, env_id: UUID, flag_in: FlagCreate):
+    db_flag = Flag(environment_id=env_id, **flag_in.model_dump())
     db.add(db_flag)
     db.commit()
     db.refresh(db_flag)
