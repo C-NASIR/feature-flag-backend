@@ -4,7 +4,7 @@ from src.schemas.segment import SegmentCreate, SegmentUpdate, SegmentInDB
 
 
 def test_segment_create_schema():
-    data = {'key': 'Segment A', 'description': 'Test segment'}
+    data = {'key': 'Segment A', 'name': 'seg 1', 'description': 'Test segment'}
     schema = SegmentCreate(**data)
     assert schema.key == 'Segment A'
     assert schema.description == 'Test segment'
@@ -22,7 +22,9 @@ def test_segment_in_db_schema():
     schema = SegmentInDB(
         id=uuid4(),
         key='Segment A',
+        name='seg 1',
         description='Test',
+        environment_id=uuid4(),
         created_at=now,
         updated_at=now,
     )

@@ -1,15 +1,12 @@
-# src/schemas/flag.py
-
 from pydantic import BaseModel, Field
 from uuid import UUID
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 
 class FlagBase(BaseModel):
-    key: str = Field(..., max_length=100)
-    name: str = Field(..., max_length=100)
-    environment_id: UUID
+    key: str
+    name: str
     description: Optional[str] = None
     default_variation: str
     enabled: bool = False
@@ -28,11 +25,12 @@ class FlagUpdate(BaseModel):
 
 class FlagInDB(FlagBase):
     id: UUID
-    created_at: datetime
+    environment_id: UUID
+    created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
     model_config = {'from_attributes': True}
 
 
-class FlagResponse(FlagInDB):
-    pass
+class FlagsInDB(BaseModel):
+    flags: Optional[List[FlagInDB]]

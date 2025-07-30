@@ -10,7 +10,6 @@ def test_flag_create_schema():
     data = {
         "key": "feature-x",
         "name": "Feature X",
-        "environment_id": uuid4(),
         "description": "Enables Feature X",
         "default_variation": "on",
         "enabled": True

@@ -5,6 +5,7 @@ from datetime import datetime
 
 class SegmentBase(BaseModel):
     key: str
+    name: str
     description: Optional[str] = None
 
 
@@ -14,6 +15,7 @@ class SegmentCreate(SegmentBase):
 
 class SegmentUpdate(BaseModel):
     key: Optional[str] = None
+    name: Optional[str] = None
     description: Optional[str] = None
 
 

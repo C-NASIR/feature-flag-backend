@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import List
 
 from src.db.base import Base
+from src.models.rule_segment import rule_segments
 
 
 class Segment(Base):
@@ -18,9 +19,15 @@ class Segment(Base):
     description: Mapped[str] = mapped_column(TEXT, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=text('now()'))
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=text("now()"), onupdate=func.now())
+        DateTime(timezone=True),
+        server_default=text('now()'))
 
-    rules: Mapped[List["Rule"]] = relationship(         # type: ignore
-        secondary="rule_segments", back_populates="segments")
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=text("now()"),
+        onupdate=func.now())
+
+    rules: Mapped[List["Rule"]] = relationship(
+        secondary=rule_segments,
+        back_populates="segments"
+    )

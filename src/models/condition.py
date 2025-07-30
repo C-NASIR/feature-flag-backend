@@ -23,5 +23,5 @@ class Condition(Base):
         DateTime(timezone=True), server_default=text("now()"), onupdate=func.now()
     )
 
-    rule: Mapped["rule"] = relationship(  # type: ignore
+    rule: Mapped["Rule"] = relationship(  # type: ignore
         back_populates="conditions")
