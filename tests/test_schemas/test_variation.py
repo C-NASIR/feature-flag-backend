@@ -5,8 +5,11 @@ from src.schemas.variation import (
 )
 
 
+data = {'key': 'key a', 'value': 'value a',
+        'description': 'nothing here'}
+
+
 def test_variation_create_schema():
-    data = {'key': 'key a', 'flag_id': uuid4(), 'value': 'values'}
     variation = VariationCreate(**data)
     variation.key = 'key a'
 
@@ -22,9 +25,10 @@ def test_variation_in_db_schema():
         'id': uuid4(),
         'key': 'key a',
         'flag_id': uuid4(),
+        'description': 'this is a description',
         'value': 'values',
         'flag_id': uuid4(),
         'created_at': datetime.now(timezone.utc),
         'updated_at': datetime.now(timezone.utc)}
-    variation = VariationUpdate(**data)
+    variation = VariationInDB(**data)
     variation.key = 'key b'

@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 
 from src.routers import (
-    flag_router, env_router, variation_router, segment_router
+    flag_router, env_router, variation_router,
+    segment_router, rule_router, condition_router
 )
 
 app = FastAPI(
@@ -14,6 +15,8 @@ app.include_router(flag_router)
 app.include_router(env_router)
 app.include_router(variation_router)
 app.include_router(segment_router)
+app.include_router(rule_router)
+app.include_router(condition_router)
 
 # Optional root endpoint to check if service is alive
 

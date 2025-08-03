@@ -1,14 +1,18 @@
 
+data = [
+    {'key': 'Segment A', 'name': 'seg 1', 'description': 'Test segment 1'},
+    {'key': 'Segment B', 'name': 'seg 2', 'description': 'Test segment 2'}
+]
+
+
 def test_create_segment_route(client):
-    data = {'key': 'Segment 1', 'description': 'desc'}
-    response = client.post('/segments', json=data)
+    response = client.post('/segments', json=data[0])
     assert response.status_code == 201
-    assert response.json()['key'] == 'Segment 1'
+    assert response.json()['key'] == data[0]['key']
 
 
 def test_get_segment_route(client):
-    data = {'key': 'Segment 2', 'description': 'desc'}
-    post = client.post('/segments', json=data)
+    post = client.post('/segments', json=data[0])
     segment_id = post.json()['id']
     response = client.get(f'/segments/{segment_id}')
     assert response.status_code == 200
@@ -16,8 +20,8 @@ def test_get_segment_route(client):
 
 
 def test_get_segments_route(client):
-    client.post("/segments/", json={"key": "Segment 1"})
-    client.post("/segments/", json={"key": "Segment 2"})
+    client.post("/segments/", json=data[0])
+    client.post("/segments/", json=data[1])
     response = client.get('/segments')
     assert response.status_code == 200
     segments = response.json()
@@ -26,7 +30,7 @@ def test_get_segments_route(client):
 
 
 def test_update_segment_route(client):
-    post = client.post("/segments/", json={"key": "Old segment"})
+    post = client.post("/segments/", json=data[0])
     segment_id = post.json()['id']
     put = client.put(f"/segments/{segment_id}", json={"key": "New segment"})
     assert put.status_code == 200
@@ -34,7 +38,7 @@ def test_update_segment_route(client):
 
 
 def test_delete_segment_route(client):
-    post = client.post("/segments/", json={"key": "Delete Segment"})
+    post = client.post("/segments/", json=data[0])
     segment_id = post.json()['id']
     delete = client.delete(f'/segments/{segment_id}')
     nothing_response = client.get('/segments')

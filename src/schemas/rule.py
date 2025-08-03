@@ -1,11 +1,13 @@
 from pydantic import BaseModel, UUID4
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
+from .condition import ConditionCreate, ConditionInDB
 
 
 class RuleBase(BaseModel):
-    variation: str
     priority: int
+    variation: str
+    conditions: Optional[List[ConditionCreate]]
 
 
 class RuleCreate(RuleBase):
@@ -17,7 +19,7 @@ class RuleUpdate(BaseModel):
     priority: Optional[int] = None
 
 
-class RuleInDB(BaseModel):
+class RuleInDB(RuleBase):
     id: UUID4
     flag_id: UUID4
     created_at: datetime

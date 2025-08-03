@@ -24,7 +24,7 @@ def test_segment_in_db_schema():
         key='Segment A',
         name='seg 1',
         description='Test',
-        environment_id=uuid4(),
+        rule_segment_id=uuid4(),
         created_at=now,
         updated_at=now,
     )

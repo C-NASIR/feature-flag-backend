@@ -39,12 +39,11 @@ def delete_environment(id, db: Session = Depends(get_db)):
 
 
 # Flag routes
+@router.post('/{env_id}/flags', response_model=FlagInDB, status_code=201)
+def create_environment(env_id: UUID, flag: FlagCreate, db: Session = Depends(get_db)):
+    return create_flag(db, env_id, flag)
+
 
 @router.get('/{id}/flags', response_model=List[FlagInDB], status_code=200)
 def get_environment(id: UUID, db: Session = Depends(get_db)):
     return environment_service.get_env(db, id).flags
-
-
-@router.post('/{env_id}/flags', response_model=FlagInDB, status_code=201)
-def create_environment(env_id: UUID, flag: FlagCreate, db: Session = Depends(get_db)):
-    return create_flag(db, env_id, flag)

@@ -8,12 +8,6 @@ from src.services import flag_service
 
 
 @pytest.fixture
-def env_id(db_session: Session):
-    data = {'key': 'dev', 'name': 'dev'}
-    return create_env(db_session, EnvCreate(**data)).id
-
-
-@pytest.fixture
 def flag_data():
     return FlagCreate(
         key="feature-z",

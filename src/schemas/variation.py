@@ -8,6 +8,7 @@ JsonValue = Union[str, int, float, bool, None, Dict[str, Any], List[Any]]
 class VariationBase(BaseModel):
     key: str
     value: JsonValue
+    description: Optional[str]
 
 
 class VariationCreate(VariationBase):
@@ -17,9 +18,10 @@ class VariationCreate(VariationBase):
 class VariationUpdate(BaseModel):
     key: Optional[str] = None
     value: Optional[JsonValue] = None
+    description: Optional[str] = None
 
 
-class VariationInDB(BaseModel):
+class VariationInDB(VariationBase):
     id: UUID4
     flag_id: UUID4
     created_at: datetime

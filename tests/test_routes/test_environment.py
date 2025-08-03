@@ -52,7 +52,7 @@ def test_create_flag_route(client):
     assert response.json()['key'] == flag_data[0]['key']
 
 
-def test_create_flag_route(client):
+def test_get_flags_route(client):
     response = client.post('/environments', json=env_data[0])
     env_id = response.json()['id']
 

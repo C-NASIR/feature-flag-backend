@@ -4,8 +4,8 @@ from typing import Optional
 
 
 class ConditionBase(BaseModel):
-    attrbiute: str
-    operator: int
+    attribute: str
+    operator: str
     value: str
 
 
@@ -14,12 +14,12 @@ class ConditionCreate(ConditionBase):
 
 
 class ConditionUpdate(BaseModel):
-    attrbiute: Optional[str]
-    operator: Optional[int]
-    value: Optional[str]
+    attribute: Optional[str] = None
+    operator: Optional[str] = None
+    value: Optional[str] = None
 
 
-class ConditionInDB(BaseModel):
+class ConditionInDB(ConditionBase):
     id: UUID4
     rule_id: UUID4
     created_at: datetime
